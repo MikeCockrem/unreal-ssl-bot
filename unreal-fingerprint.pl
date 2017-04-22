@@ -1,34 +1,48 @@
 #!/usr/bin/perl
 #
-# "unreal-fingerprint.pl" - SSL Certificate SHA256 fingerprint validation & substitution program
-#
-# M. Cockrem - michael.cockrem@au.fujitsu.com
-#
-# 28/02/2017 v0.1a	Initial release
-# 01/03/2017 v0.5a	Error handling for edge cases
-# 02/03/2017 v0.6	Bug squashing, various refactoring
-# 03/03/2017 v1.0	Fixed watchdog code. Cleanup.
-# 03/06/2017 v1.1   Fingerprint regex bug squash
-#
-# About: This program reads input from $HashFile, expecting a SHA256 hashed fingerprint
-# 'a\n' followed by a second fingerprint 'b\n'. If these are found in a plaintext
-# file, the program validates them & either exits if they do not match the expected
-# fingerprint syntax or continues & finds $TargetFile, searches for fingerprint 'a'
-# in that file & replaces it with the 'b' fingerprint before commiting a syscall to
-# rehash configuration file '$TargetFile'.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# -------------------------------------------------------------------------------------------------
+=pod
+
+=head1 "unreal-fingerprint.pl" - SSL Certificate SHA256 fingerprint validation & substitution program
+
+ M. Cockrem - michael.cockrem@gmail.com
+ 28/02/2017 v0.1a	Initial release
+ 01/03/2017 v0.5a	Error handling for edge cases
+ 02/03/2017 v0.6	Bug squashing, various refactoring
+ 03/03/2017 v1.0	Fixed watchdog code. Cleanup.
+ 03/06/2017 v1.1   Fingerprint regex bug squash
+
+=head2 About:
+ 
+ This program reads input from $HashFile, expecting a SHA256 hashed fingerprint
+ 'a\n' followed by a second fingerprint 'b\n'. If these are found in a plaintext
+ file, the program validates them & either exits if they do not match the expected
+ fingerprint syntax or continues & finds $TargetFile, searches for fingerprint 'a'
+ in that file & replaces it with the 'b' fingerprint before commiting a syscall to
+ rehash configuration file '$TargetFile'.
+
+=head2 Dependencies:
+            - Perl (5.x)
+            - File::Copy
+            - Unreal IRCD
+
+=head2 Licence:
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut
+# -------------------------------------------------------------------------------------------------
 
 use strict;
 use warnings FATAL => 'all';
@@ -48,7 +62,7 @@ my $LogTime  = strftime "%F %H:%M:%S", localtime;
 my $verbosity  = "1";                                         # Logging level: 0 off (default) | 1 Informational | 2 extended | 3 Debugging (noisy)
 my $WorkPath   = "/srv/irc";                                  # Set your unrealircd directory path here
 my $LogFile    = "$WorkPath/logs/$0.log";                     # Log file name and location
-my $HashFile   = "/home/mike/hashfile.out";                 # Hash file name and location the external server dumps file to
+my $HashFile   = "/home/mike/hashfile.out";                   # Hash file name and location the external server dumps file to
 my $TargetF    = "$WorkPath/conf/unrealircd.conf";            # Unmodified target configuration file "n"
 my $BackupF    = "$WorkPath/conf/unrealircd.conf.$DateTime";  # Filename target to move $OriginalF "n"
 my $RehashCmd  = "$WorkPath/unrealircd rehash";               # Path and command to rehash configuration file

@@ -7,6 +7,7 @@
  M. Cockrem - mikecockrem@gmail.com
  23/03/2017  v0.3a      Initial release
  20/04/2017  v0.4a      Debugging, added expiry checks.
+ 22/04/2017  v0.4.1a    Layout and formatting standardisation
 
 =head2 About:
 
@@ -66,6 +67,9 @@ use Net::SSL::ExpireDate;
 use File::Copy;
 use Net::SCP;
 
+# -----------------------------------------------------------
+# User Variables - change to the appropriate file paths here:
+# -----------------------------------------------------------
 my $RemoteServer = "";                           # Address of remote server to notify (SCP)
 my $RemoteUser   = "";                          # Remote server username (SCP)
 my $RootCert = "lets-encrypt-x3-cross-signed.pem.txt";  # Name of LE's chain file (in $WorkPath) https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt
@@ -81,20 +85,27 @@ my $CSRKey = "";            # Certificate Signing Request private key (LE Privat
 my $CSRFile = "";                  # Certificate Signing Request file (CSR)
 my $PriKey = "";                   # Certificate/Domain private key
 my $ExpiryDeadline = "1 day";      # How long should we wait to renew? (Don't forget to change --renew (n) in the LetsEnc module)
-my $FH0;
-my $FH1;
-my $FH2;
+# - No need to change anything below this line -
+my $FH0; my $FH1; my $FH2;
 my $expire_date;
 my $NowTime = strftime "%F-%H%M%S", localtime;
 my $ExpiryCheck;
 my $ExpireDate;
 my $Expired;
 
+#################
+#  Main module  #
+#################
+
 &GetUID();
 &CheckExpiry();
 &LetEnc();
 &InstallCert();
 &Rehash();
+
+#################
+#  Subroutines  #
+#################
 
 sub GetHash {
     my $OldFingerprint = qx(openssl x509 -sha256 -fingerprint -noout -in $WorkPath/$CertName | cut -d = -f2 | tr -d '\n') || die "Couldn't evaluate $WorkPath/$CertName fingerprint, aborting!\n";
