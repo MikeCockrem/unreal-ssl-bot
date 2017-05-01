@@ -85,24 +85,24 @@ use Net::SCP;
 # -----------------------------------------------------------
 # User Variables - change to the appropriate file paths here:
 # -----------------------------------------------------------
-my $verbosity		= "2";					   # Logging level: 0 off (default) | 1 Informational | 2 extended | 3 Debugging (noisy)
-my $RemoteServer 	= "203.59.73.131";                  	   # Address of remote server to notify (SCP)
-my $RemoteUser   	= "mike";                          	   # Remote server username (SCP)
-my $DestLoc		= "/home/mike";				   # Destination path on remote server for hashfile, without trailing slash (SCP)
+my $verbosity		= "2";				    # Logging level: 0 off (default) | 1 Informational | 2 extended | 3 Debugging (noisy)
+my $WorkPath 		= " ";                  # Location path (No trailing slash)
+my $LogFile    		= "$WorkPath/$0.log";   # Log file name and location
 my $RootCert 		= "lets-encrypt-x3-cross-signed.pem.txt";  # Name of LE's chain file (in $WorkPath) https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt
-my $WorkPath 		= "/srv/irc/conf/ssl";                     # Location path (No trailing slash)
-my $LogFile    		= "$WorkPath/$0.log";                      # Log file name and location
-my $CertName 		= "irc.afk47.org.pem";                     # Certificate name
-my $UID 		= 0;                                       # UID for certificate (500 = he113294)
-my $GID 		= 501;                                     # GID for certificate (10 = wheel)
-my $PERMS 		= 0640;                                    # File permissions for certificate (-rw-------)
-my $HashFile 		= "HashFile.out";                          # SSL Fingerprints file
-my $Domains 		= "irc.afk47.org";                         # Target domain name
-my $CSRKey 		= "le-irc.afk47.org.signing.key";          # Certificate Signing Request private key (LE Private key)
-my $CSRFile 		= "le-irc.afk47.org.csr";                  # Certificate Signing Request file (CSR)
-my $PriKey 		= "irc.afk47.org.key";                     # Certificate/Domain private key
-my $ExpiryDeadline 	= "7 days";      			   # How long should we wait to renew? (Don't forget to change --renew (n) in the LetsEnc module)
-my $Configured		= "1";					   # Change this to "1" once you've configured the above
+my $HashFile 		= "HashFile.out";       # SSL Fingerprints file (make sure the leaf node script is looking for the same name)
+my $ExpiryDeadline 	= "7 days";             # How long should we wait to renew? (Don't forget to change --renew (n) in the LetsEnc module)
+my $UID 		    = "0";                  # UID for certificate 
+my $GID 		    = "0";                  # GID for certificate 
+my $PERMS 		    = "0640";               # File permissions for certificate
+my $CertName 		= " ";                  # Certificate name
+my $Domains 		= " ";                  # Target domain name
+my $CSRKey 		    = " ";                  # Certificate Signing Request private key (LE Private key)
+my $CSRFile 		= " ";                  # Certificate Signing Request file (CSR)
+my $PriKey 		    = " ";                  # Certificate/Domain private key
+my $RemoteServer 	= " ";                  # Address of remote server to notify (SCP)
+my $RemoteUser   	= " ";                  # Remote server username (SCP)
+my $DestLoc		    = " ";			        # Destination path on remote server for hashfile, without trailing slash (SCP)
+my $Configured		= "0";			        # Change this to "1" once you've configured the above
 #
 # ----- No need to change anything below this line ----
 #
