@@ -186,7 +186,7 @@ sub LetsEnc {
                 &GetHash();
                 &PushRemote();
         } else {
-                die "FATAL: We were within renewal window but le.pl didn't return succesful renewal code: Exiting with failurei ($?)\n";
+                die "FATAL: We were within renewal window but le.pl didn't return succesful renewal code: Exiting with failure ($?)\n";
         }
         alarm(0);
     };
